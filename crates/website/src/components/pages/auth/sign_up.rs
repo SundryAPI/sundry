@@ -1,4 +1,5 @@
 use crate::components::atoms::button::{Button, ButtonVariant, GithubSSOAuth};
+use crate::components::molecules::modal::Modal;
 use crate::components::molecules::top_nav::TopNav;
 use leptos::prelude::*;
 
@@ -20,10 +21,15 @@ pub async fn sign_up(
     password: String,
     repeat_password: String,
     invite_secret: Option<String>,
+    terms_of_service: bool,
 ) -> Result<(), ServerFnError> {
     use crate::{auth::utils::login_user, error::LogAndMapInternalServerError, AppState};
     use models::user::User;
     use tracing::error;
+
+    if !terms_of_service {
+        return Err(ServerFnError::new("Must accept Sundry's terms of service."));
+    }
 
     if password != repeat_password {
         return Err(ServerFnError::new("passwords do not match"));
@@ -99,6 +105,11 @@ pub fn SignupEmail(
                             placeholder="new password"
                         />
                     </label>
+                    <div class="inline-block">
+                        <input type="checkbox" required/>
+                        " I agree to Sundry's "
+                        <a href="https://www.getsundry.app/terms-of-service">terms of service</a>
+                    </div>
                     {move || {
                         if let Some(invite_secret) = invite_query
                             .read()
@@ -142,6 +153,36 @@ pub fn SignupEmail(
 }
 
 #[component]
+pub fn SsoModal(
+    params: String,
+    loading: ReadSignal<bool>,
+    set_loading: WriteSignal<bool>,
+) -> impl IntoView {
+    let (terms_of_service, set_terms_of_service) = signal(false);
+
+    view! {
+        {move || {
+            view! {
+            <div>
+                <div class="inline-block pb-5">
+                    <input
+                        type="checkbox"
+                        on:click= move |_| {
+                            set_terms_of_service.set(!terms_of_service.get())
+                        }/>
+                    " I agree to Sundry's "
+                    <a href="https://www.getsundry.app/terms-of-service">terms of service</a>
+                </div>
+
+                <GithubSSOAuth loading set_loading data=params.clone() disabled=!terms_of_service.get() />
+            </div>
+
+            }
+        }}
+    }
+}
+
+#[component]
 pub fn SignupSSO(
     use_sso: ReadSignal<bool>,
     set_use_sso: WriteSignal<bool>,
@@ -149,6 +190,7 @@ pub fn SignupSSO(
     set_loading: WriteSignal<bool>,
 ) -> impl IntoView {
     let invite_params = use_query::<InviteParams>();
+    let (show_sso_modal, set_show_sso_modal) = signal(false);
     let params = match invite_params
         .read()
         .as_ref()
@@ -162,8 +204,21 @@ pub fn SignupSSO(
     view! {
         <div class="auth max-w-sm m-auto">
             <div class="inputs">
-                <GithubSSOAuth loading set_loading data=params />
+                <Button on_click=Box::new(move || {
+                    set_show_sso_modal.set(true)
+                })
+                variant=ButtonVariant::Other
+                attr:r#type="button"
+                >
+                    <div class="w-full flex align-start gap-2">
+                        <img src="/images/github.svg" />
+                        "Continue with GitHub"
+                    </div>
+                </Button>
 
+                <Modal show=(show_sso_modal, set_show_sso_modal) show_close_button=true>
+                    <SsoModal loading set_loading params=params.clone() />
+                </Modal>
                 <div class="m-auto">"Or sign up using email"</div>
 
                 <Button
