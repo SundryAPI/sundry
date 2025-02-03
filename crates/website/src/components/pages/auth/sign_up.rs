@@ -107,8 +107,10 @@ pub fn SignupEmail(
                     </label>
                     <div class="inline-block">
                         <input type="checkbox" required/>
-                        " I agree to Sundry's "
+                        " By creating an account, you agree to our "
                         <a href="https://www.getsundry.app/terms-of-service">terms of service</a>
+                        " and "
+                        <a href="https://www.getsundry.app/privacy-policy">Privacy Policy.</a>
                     </div>
                     {move || {
                         if let Some(invite_secret) = invite_query
@@ -170,8 +172,10 @@ pub fn SsoModal(
                         on:click= move |_| {
                             set_terms_of_service.set(!terms_of_service.get())
                         }/>
-                    " I agree to Sundry's "
+                    " By creating an account, you agree to our "
                     <a href="https://www.getsundry.app/terms-of-service">terms of service</a>
+                    " and "
+                    <a href="https://www.getsundry.app/privacy-policy">Privacy Policy.</a>
                 </div>
 
                 <GithubSSOAuth loading set_loading data=params.clone() disabled=!terms_of_service.get() />
