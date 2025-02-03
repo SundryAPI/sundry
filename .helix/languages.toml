@@ -1,0 +1,10 @@
+[[language]]
+name = "rust"
+auto-format = true
+formatter = { command = "leptosfmt", args = ["--stdin", "--rustfmt"] }
+
+[language-server.rust-analyzer.config.cargo]
+features = [ "ssr", "integration" ]
+
+[language-server.rust-analyzer.config]
+check = { command = "clippy" }

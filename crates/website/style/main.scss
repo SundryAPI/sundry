@@ -1,0 +1,108 @@
+body {}
+
+.pt-nav {
+  padding-top: 120px;
+}
+
+.min-h-with-nav {
+  min-height: calc(100vh - 60px);
+}
+
+.overlay {
+    position: fixed;
+    background: rgba(black, 0.8);
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.spinner {
+    position: relative;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+
+    .spinner-blade {
+        position: absolute;
+        left: 0.4629em;
+        bottom: 0;
+        width: 0.074em;
+        height: 0.2777em;
+        border-radius: 0.0255em;
+        background-color: transparent;
+        transform-origin: center -0.2222em;
+        animation: spinner-fade 1s infinite linear;
+
+        @for $i from 1 through 12 {
+            &:nth-child(#{$i}) {
+                animation-delay: #{($i - 1) * 0.083}s;
+                transform: rotate(#{($i - 1) * 30}deg);
+            }
+        }
+    }
+}
+
+/* TODO: @silas go through these with a designer */
+.demo-assistant-message {
+  /* Basic text elements */
+  p {
+      margin-bottom: 1rem;
+      line-height: 1.5;
+  }
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Lists */
+  ul, ol {
+      margin: 0.5rem 0 1rem 1rem;
+      padding-left: 2rem;
+  }
+
+  ul {
+      list-style: disc;
+  }
+
+  ol {
+      list-style: decimal;
+  }
+
+  li {
+      margin-bottom: 0.5rem;
+  }
+
+  /* Headings */
+  h1, h2, h3, h4, h5, h6 {
+      margin: 2rem 0 1rem;
+      line-height: 1.2;
+  }
+
+  /* Blockquotes */
+  blockquote {
+      margin: 1rem 0;
+      padding: 0.5rem 0 0.5rem 1rem;
+      border-left: 0.25rem solid #DEE0E7;
+      color: #DEE0E7;
+  }
+
+  /* Code blocks */
+  pre {
+      margin: 1rem 0;
+      padding: 1rem;
+      background-color: #212224;
+      border-radius: 0.25rem;
+      overflow-x: auto;
+  }
+
+  code {
+      font-family: monospace;
+      background-color: #212224;
+      padding: 0.2rem 0.4rem;
+      border-radius: 0.25rem;
+  }
+}

@@ -1,0 +1,80 @@
+################################
+### Fireworks LLama3.3 70b ######
+################################
+
+# [query_planner]
+# type = "openai"
+# model = "accounts/fireworks/models/llama-v3p3-70b-instruct"
+# base_url = "https://api.fireworks.ai/inference/v1"
+# key_name = "FIREWORKS_API_KEY"
+
+# [text_2_sql]
+# type = "openai"
+# model = "accounts/fireworks/models/llama-v3p3-70b-instruct"
+# base_url = "https://api.fireworks.ai/inference/v1"
+# key_name = "FIREWORKS_API_KEY"
+
+# [transform]
+# type = "openai"
+# model = "accounts/fireworks/models/llama-v3p3-70b-instruct"
+# base_url = "https://api.fireworks.ai/inference/v1"
+# key_name = "FIREWORKS_API_KEY"
+
+# [summarize]
+# type = "openai"
+# model = "accounts/fireworks/models/llama-v3p3-70b-instruct"
+# base_url = "https://api.fireworks.ai/inference/v1"
+# key_name = "FIREWORKS_API_KEY"
+
+
+################################
+### GPT-4o #####################
+################################
+
+[query_planner]
+type = "openai"
+model = "gpt-4o"
+base_url = "https://api.openai.com/v1"
+key_name = "OPENAI_API_KEY"
+
+[text_2_sql]
+type = "openai"
+model = "gpt-4o"
+base_url = "https://api.openai.com/v1"
+key_name = "OPENAI_API_KEY"
+
+[transform]
+type = "openai"
+model = "gpt-4o"
+base_url = "https://api.openai.com/v1"
+key_name = "OPENAI_API_KEY"
+
+[summarize]
+type = "openai"
+model = "gpt-4o"
+base_url = "https://api.openai.com/v1"
+key_name = "OPENAI_API_KEY"
+
+################################
+### GPT-4o #####################
+################################
+
+# [query_planner]
+# type = "gemini"
+# model = "gemini-2.0-flash-exp"
+# key_name = "GEMINI_API_KEY"
+
+# [text_2_sql]
+# type = "gemini"
+# model = "gemini-2.0-flash-exp"
+# key_name = "GEMINI_API_KEY"
+
+# [transform]
+# type = "gemini"
+# model = "gemini-2.0-flash-exp"
+# key_name = "GEMINI_API_KEY"
+
+# [summarize]
+# type = "gemini"
+# model = "gemini-2.0-flash-exp"
+# key_name = "GEMINI_API_KEY"

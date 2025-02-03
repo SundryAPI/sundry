@@ -1,0 +1,33 @@
+[package]
+name = "jobs"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+description.workspace = true
+repository.workspace = true
+
+[lib]
+name = "jobs"
+path = "src/lib.rs"
+
+[[bin]]
+name = "jobs"
+path = "src/main.rs"
+
+[dependencies]
+anyhow.workspace = true
+apalis.workspace = true
+dotenvy.workspace = true
+jsonwebtoken.workspace = true
+reqwest.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+sqlx.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+
+models = { path = "../models", features = ["ssr"] }
+
+[dev-dependencies]
+dotenvy.workspace = true

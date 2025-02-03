@@ -1,0 +1,33 @@
+# fly.toml app configuration file generated for sundry-website on 2024-12-05T09:17:49-08:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'sundry-website'
+primary_region = 'ord'
+
+[build]
+  dockerfile = 'Dockerfile'
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = ['app']
+
+[env]
+  WEBSITE_LOG="website=info,sqlx::query=error"
+  LEPTOS_SITE_ADDR="0.0.0.0:8000"
+  LEPTOS_SITE_ROOT="site"
+  PUBLIC_DEV_MODE="false"
+  PUBLIC_GITHUB_APP_NAME="SundryApp"
+  PUBLIC_GITHUB_APP_CLIENT_ID="Iv23liRjdN7efQoLKPKC"
+  SUNDRY_DEMO_API_ENDPOINT="https://getsundry.app/v1/context"
+
+[[vm]]
+  memory = '256mb'
+  cpu_kind = 'shared'
+  cpus = 1
+

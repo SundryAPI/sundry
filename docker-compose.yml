@@ -1,0 +1,113 @@
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: sundry
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d sundry"]
+      interval: 1s
+      timeout: 1s
+      retries: 10
+
+  migrations:
+    build:
+      context: .
+      dockerfile: deploy/migrations/Dockerfile
+    environment:
+      DATABASE_URL: postgres://user:password@postgres:5432/sundry
+    volumes:
+      - cargo-registry:/usr/local/cargo/registry
+      - ./migrations:/app/migrations
+    depends_on:
+      postgres:
+        condition: service_healthy
+    develop:
+      watch:
+        - action: rebuild
+          path: ./migrations
+          target: builder
+
+  website:
+    build:
+      context: .
+      dockerfile: deploy/website/Dockerfile
+      args:
+        LEPTOS_SITE_HOST: 0.0.0.0
+        LEPTOS_SITE_PORT: 8000
+        DATABASE_URL: postgres://user:password@host.docker.internal:5433/sundry
+    environment:
+      DATABASE_URL: postgres://user:password@postgres:5432/sundry
+      RUST_LOG: info
+      LEPTOS_SITE_ROOT: site
+    ports:
+      - "8000:8000"
+    volumes:
+      - cargo-registry:/usr/local/cargo/registry
+      - cargo-git:/usr/local/cargo/git
+    depends_on:
+      migrations:
+        condition: service_completed_successfully
+    develop:
+      watch:
+        - action: rebuild
+          path: .
+          target: builder
+
+  api:
+    build:
+      context: .
+      dockerfile: deploy/api/Dockerfile
+      args:
+        DATABASE_URL: postgres://user:password@host.docker.internal:5433/sundry
+    environment:
+      DATABASE_URL: postgres://user:password@postgres:5432/sundry
+      RUST_LOG: info
+      API_PORT: 8001
+    ports:
+      - "8001:8001"
+    volumes:
+      - cargo-registry:/usr/local/cargo/registry
+      - cargo-git:/usr/local/cargo/git
+    depends_on:
+      migrations:
+        condition: service_completed_successfully
+    develop:
+      watch:
+        - action: rebuild
+          path: .
+          target: builder
+
+  jobs:
+    build:
+      context: .
+      dockerfile: deploy/jobs/Dockerfile
+      args:
+        DATABASE_URL: postgres://user:password@host.docker.internal:5433/sundry
+    environment:
+      DATABASE_URL: postgres://user:password@postgres:5432/sundry
+      RUST_LOG: info
+    volumes:
+      - cargo-registry:/usr/local/cargo/registry
+      - cargo-git:/usr/local/cargo/git
+    depends_on:
+      migrations:
+        condition: service_completed_successfully
+    develop:
+      watch:
+        - action: rebuild
+          path: ./crates/jobs/
+          target: builder
+        - action: rebuild
+          path: ./crates/models/
+          target: builder
+
+volumes:
+  postgres-data:
+  cargo-registry:
+  cargo-git:

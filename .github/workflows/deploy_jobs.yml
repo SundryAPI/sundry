@@ -1,0 +1,23 @@
+# For more details, see: https://fly.io/docs/app-guides/continuous-deployment-with-github-actions/
+
+name: Deploy jobs to fly.io
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: "Deploy to fly"
+        id: deployment
+        run: |
+          flyctl deploy -c deploy/jobs/fly.toml \
+            --remote-only \
+            --build-arg DATABASE_URL=${{ secrets.DATABASE_URL }}
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}

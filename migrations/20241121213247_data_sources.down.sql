@@ -1,0 +1,2 @@
+DROP TABLE raw CASCADE;
+DROP TABLE raw_normalized CASCADE;

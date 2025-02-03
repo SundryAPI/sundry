@@ -1,0 +1,29 @@
+# For more details, see: https://fly.io/docs/app-guides/continuous-deployment-with-github-actions/
+
+name: Deploy website to fly.io
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: "Deploy to fly"
+        id: deployment
+        run: |
+          flyctl deploy -c deploy/website/fly.toml \
+            --remote-only \
+            --build-arg DATABASE_URL=${{ secrets.DATABASE_URL }} \
+            --build-arg PUBLIC_DEV_MODE=false \
+            --build-arg PUBLIC_GITHUB_APP_NAME=SundryAPI \
+            --build-arg PUBLIC_GITHUB_APP_CLIENT_ID=Iv23liRjdN7efQoLKPKC \
+            --build-arg PUBLIC_SLACK_CLIENT_ID="3368380417254.8300785958995" \
+            --build-arg PUBLIC_SLACK_SCOPES="channels:read,channels:join,groups:read,im:read,mpim:read,users:read,channels:history,groups:history,im:history,mpim:history" \
+            --build-arg PUBLIC_SLACK_USER_SCOPES="email,openid,profile"
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}

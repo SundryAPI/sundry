@@ -1,0 +1,483 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+}
+
+@layer base {
+    body {
+        @apply bg-black;
+        @apply text-white;
+        @apply font-helvetica;
+    }
+    h1,
+    .h1 {
+        @apply text-6xl;
+        @apply font-bold;
+        @apply font-helvetica;
+    }
+    h2,
+    .h2 {
+        @apply text-5xl;
+        @apply font-bold;
+        @apply font-helvetica;
+    }
+    h3,
+    .h3 {
+        @apply text-4xl;
+        @apply font-bold;
+        @apply font-helvetica;
+    }
+    h4,
+    .h4 {
+        @apply text-3xl;
+        @apply font-bold;
+        @apply font-helvetica;
+    }
+    h5,
+    .h5 {
+        @apply text-2xl;
+        @apply font-bold;
+        @apply font-helvetica;
+    }
+    h6,
+    .h6 {
+        @apply text-xl;
+        @apply font-bold;
+        @apply font-helvetica;
+    }
+    .eyebrow {
+        @apply text-xs;
+        @apply font-ibm;
+    }
+
+    textarea,
+    .textarea-result {
+        @apply p-3;
+        @apply text-neutral-200;
+        @apply bg-neutral-600;
+        @apply border-2;
+        @apply border-transparent;
+        outline: none;
+
+        &.error,
+        &:user-invalid,
+        &:user-invalid&:focus {
+            @apply border-red-500;
+        }
+
+        &:focus,
+        &:active,
+        &:focus-visible {
+            @apply border-neon-shade-100;
+        }
+    }
+
+    input[type="password"],
+    input[type="text"],
+    input[type="email"] {
+        @apply bg-neutral-700;
+        @apply p-2;
+        @apply rounded-sm;
+        @apply text-white;
+        outline: none;
+        @apply border-b-2;
+        @apply border-transparent;
+
+        ::placeholder {
+            @apply text-neutral-400;
+        }
+
+        &:active,
+        &:focus,
+        &:focus-visible {
+            @apply border-neon-shade-100;
+        }
+
+        &.error,
+        &:user-invalid {
+            @apply border-red-500;
+        }
+    }
+    label.auth,
+    label {
+        @apply flex;
+        @apply flex-col;
+        @apply gap-1;
+        @apply text-sm;
+        @apply font-ibm;
+    }
+
+    div.auth {
+        @apply flex;
+        @apply flex-col;
+        @apply bg-gray-600;
+        @apply p-10;
+        @apply rounded-sm;
+        @apply gap-8;
+
+        .inputs {
+            @apply gap-4;
+            @apply flex;
+            @apply flex-col;
+        }
+    }
+    button,
+    .btn {
+        @apply inline-flex;
+        @apply items-center;
+        @apply justify-center;
+        @apply rounded-sm;
+        @apply text-center;
+        @apply font-semibold;
+        @apply text-[18px];
+        @apply leading-[24px];
+        @apply gap-2;
+        @apply font-ibm;
+
+        &.primary {
+            @apply bg-neon-shade-100;
+            @apply text-black;
+            @apply px-6;
+            @apply py-4;
+
+            &:hover {
+                @apply bg-neon-tint-1000;
+            }
+
+            &:active {
+                @apply bg-neon-tint-400;
+            }
+
+            &.disabled,
+            &:disabled {
+                @apply cursor-not-allowed;
+                @apply text-neutral-100;
+                @apply bg-neutral-500;
+            }
+        }
+
+        &.secondary {
+            @apply bg-transparent;
+            @apply text-neon-shade-100;
+            @apply border-2;
+            @apply px-4;
+            @apply py-2;
+            @apply border-neon-shade-100;
+
+            &:hover {
+                @apply text-neon-tint-1000;
+                @apply border-neon-tint-1000;
+            }
+
+            &:active {
+                @apply text-neon-tint-400;
+                @apply border-neon-tint-400;
+            }
+
+            &.disabled,
+            &:disabled {
+                @apply cursor-not-allowed;
+                @apply text-neutral-500;
+                @apply border-neutral-500;
+            }
+        }
+
+        &.tertiary {
+            @apply bg-transparent;
+            @apply text-neon-shade-100;
+
+            &:hover {
+                @apply text-neon-tint-1000;
+                :not(span) {
+                    @apply underline;
+                }
+            }
+
+            &:active {
+                @apply text-neon-tint-400;
+                @apply underline;
+            }
+
+            &:disabled,
+            &.disabled {
+                @apply cursor-not-allowed;
+                @apply text-neutral-500;
+                @apply no-underline;
+            }
+        }
+
+        &.nav {
+            @apply bg-transparent;
+            @apply text-neutral-100;
+            text-underline-offset: 8px;
+            text-decoration-thickness: 2px;
+            @apply hover:text-neon-tint-700;
+            &.active,
+            &:active {
+                @apply text-neon-tint-100;
+                @apply underline;
+            }
+        }
+
+        &.menu {
+            @apply bg-transparent;
+            @apply text-white;
+            @apply px-2;
+            @apply py-2;
+
+            &:hover {
+                @apply bg-neon-shade-100;
+                @apply text-neutral-900;
+            }
+
+            &:active {
+                @apply bg-neutral-800;
+                @apply text-neutral-100;
+            }
+
+            &.disabled,
+            &:disabled {
+                @apply cursor-not-allowed;
+                @apply text-neutral-100;
+                @apply bg-neutral-500;
+            }
+        }
+
+        &.other {
+            @apply bg-neutral-700;
+            @apply px-4;
+            @apply py-3;
+
+            &:hover {
+                @apply bg-neutral-500;
+            }
+
+            &:active {
+                @apply bg-neutral-600;
+            }
+
+            &:disabled,
+            &.disabled {
+                @apply cursor-not-allowed;
+                @apply bg-neutral-300;
+            }
+        }
+    }
+    a {
+        @apply text-neon-shade-100;
+
+        &.nav {
+            @apply text-neutral-100;
+            text-underline-offset: 8px;
+            text-decoration-thickness: 2px;
+            @apply hover:text-neon-tint-700;
+            &.active,
+            &:active {
+                @apply text-neon-tint-100;
+                @apply underline;
+            }
+        }
+    }
+
+    @keyframes spinner-fade {
+        0% {
+            @apply bg-neon-tint-200;
+        }
+        100% {
+            @apply bg-transparent;
+        }
+    }
+
+    .tag {
+        @apply inline-flex;
+        @apply items-center;
+        @apply justify-center;
+        @apply rounded-sm;
+        @apply text-center;
+        @apply gap-2;
+        @apply px-1.5;
+        @apply py-1;
+        @apply text-neutral-100;
+        @apply font-helvetica;
+
+        &.alpha {
+            @apply border-neutral-600;
+            @apply border-2;
+            span {
+                @apply text-magenta-tint-100;
+            }
+        }
+
+        &.coming-soon {
+            @apply border-neutral-600;
+            @apply border-2;
+            span {
+                @apply text-cornflower-shade-100;
+            }
+        }
+
+        &.invited {
+            @apply border-cornflower-tint-100;
+            @apply border-2;
+            @apply text-cornflower-tint-100;
+            @apply uppercase;
+        }
+
+        &.active {
+            @apply border-neon-shade-300;
+            @apply border-2;
+            @apply text-neon-tint-300;
+            @apply uppercase;
+        }
+    }
+
+    .action-tag {
+        @apply bg-neutral-600;
+        @apply hover:bg-neutral-500;
+        @apply active:bg-neutral-700;
+        @apply border-2;
+        @apply border-transparent;
+        @apply font-helvetica;
+
+        &.connect,
+        &.import {
+            span {
+                @apply text-neon-tint-100;
+            }
+        }
+
+        &.disconnect,
+        &.remove {
+            span {
+                @apply text-red-500;
+            }
+        }
+
+        &:disabled {
+            @apply cursor-not-allowed;
+            @apply bg-transparent;
+            @apply border-neutral-600;
+        }
+    }
+
+    .slider-item {
+        text-underline-offset: 8px;
+        text-decoration-thickness: 2px;
+        @apply hover:text-neon-tint-700;
+        @apply text-interactive;
+        &.active {
+            @apply text-neon-tint-100;
+            @apply underline;
+        }
+    }
+
+    .demo-container {
+        /* accounts for header and padding */
+        height: calc(100vh - 148px);
+    }
+
+    .top-nav-padding {
+        padding-top: 148px;
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+        @apply bg-neutral-700;
+        @apply rounded-sm;
+    }
+
+    .dropdown-toggle {
+        padding: 8px 16px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        @apply rounded-sm;
+        @apply font-normal;
+        @apply text-base;
+        justify-content: space-between;
+    }
+
+    .dropdown-toggle.show .dropdown-arrow {
+        transform: rotate(180deg);
+    }
+
+    .dropdown-toggle.disabled {
+        opacity: 0.65;
+        pointer-events: none;
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 1000;
+        display: none;
+        min-width: 160px;
+        padding: 8px 0;
+        margin: 2px 0 0;
+        background-color: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+        @apply bg-neutral-700;
+        @apply w-full;
+    }
+
+    .dropdown-menu.show {
+        display: block;
+    }
+
+    .dropdown-menu ul {
+        list-style: none;
+    }
+
+    .dropdown-item {
+        display: block;
+        padding: 8px 16px;
+        clear: both;
+        font-weight: 400;
+        text-align: inherit;
+        white-space: nowrap;
+        background-color: transparent;
+        border: 0;
+        cursor: pointer;
+        @apply font-ibm;
+    }
+
+    .dropdown-item:hover {
+        @apply bg-neon-tint-100;
+        @apply text-neutral-900;
+    }
+
+    .dropdown-item:active {
+        @apply bg-neutral-800;
+        @apply text-neutral-100;
+    }
+
+    table {
+        border-collapse: collapse;
+    }
+    th {
+        @apply text-left;
+    }
+    th,
+    td {
+        padding: 8px;
+        @apply border-b-8;
+        @apply border-transparent;
+        @apply bg-neutral-700;
+        background-clip: padding-box;
+    }
+}

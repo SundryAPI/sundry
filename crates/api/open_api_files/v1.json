@@ -1,0 +1,132 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Context Query API",
+    "description": "API to process natural language queries",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/v1/context": {
+      "post": {
+        "summary": "Perform a query",
+        "description": "Accepts a natural language query and returns the requested data",
+        "operationId": "postContext",
+        "security": [
+          {
+            "BearerAuth": [],
+            "ApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "JSON payload containing the natural language query",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "query"
+                ],
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "description": "The natural language query",
+                    "example": "What are my current GitHub issues?"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Query processed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "confidence": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "Confidence 0-100 the output matches the requested data",
+                      "example": 95
+                    },
+                    "data": {
+                      "type": "string",
+                      "description": "The data result of the query",
+                      "example": "GitHub Issues..."
+                    },
+                    "user_message": {
+                      "type": "string",
+                      "nullable": true,
+                      "description": "An optional message outlining assumptions and other notable things - can be used to debug output",
+                      "example": "Assumed 'my' GitHub issues means ones assigned to the user not created by the user."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication credentials are missing or invalid."
+          },
+          "422": {
+            "description": "Unprocessable Entity - The provided input is invalid."
+          },
+          "500": {
+            "description": "Internal Server Error - An unexpected error occurred on the server."
+          }
+        }
+      }
+    },
+    "/v1/sources": {
+      "get": {
+        "summary": "Get available sources",
+        "description": "Returns a JSON object of available sources for the user.",
+        "operationId": "getSources",
+        "security": [
+          {
+            "BearerAuth": [],
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sources retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "GitHub": ["Issues", "PullRequests"],
+                    "Slack": ["Messages", "Threads"]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication credentials are missing or invalid."
+          },
+          "500": {
+            "description": "Internal Server Error - An unexpected error occurred on the server."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      },
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key"
+      }
+    }
+  }
+}

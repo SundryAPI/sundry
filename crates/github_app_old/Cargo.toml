@@ -1,0 +1,19 @@
+[package]
+name = "github_app"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+description.workspace = true
+repository.workspace = true
+
+[dependencies]
+tokio.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+sqlx.workspace = true
+axum.workspace = true
+tracing-subscriber.workspace = true
+
+github_types = { path = "../github_types" }
+models = { path = "../models", features = ["ssr"] }
