@@ -19,10 +19,10 @@ pub fn footer() -> impl IntoView {
             <div class="text-xl text-neon-tint-100 font-ibm">sundry_</div>
 
             <div class="gird grid-cols-2 divide-x divide-neutral-600">
-                <a href="#" class="nav px-3">
+                <a href="https://www.getsundry.app/terms-of-service" class="nav px-3">
                     Terms of Service
                 </a>
-                <a href="#" class="nav px-3">
+                <a href="https://www.getsundry.app/privacy-policy" class="nav px-3">
                     Privacy Policy
                 </a>
             </div>

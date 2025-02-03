@@ -61,6 +61,7 @@ pub fn GithubSSOAuth(
     loading: ReadSignal<bool>,
     set_loading: WriteSignal<bool>,
     #[prop(optional)] data: Option<String>,
+    #[prop(optional)] disabled: Option<bool>,
 ) -> impl IntoView {
     let set_session = Action::new(|input: &String| {
         let input = input.to_owned();
@@ -85,12 +86,17 @@ pub fn GithubSSOAuth(
     view! {
         <Button
             on_click=Box::new(move || {
-                set_loading.set(!loading.get());
-                let data = match data.to_owned() {
-                    Some(data) => data,
-                    None => "".to_string(),
-                };
-                set_session.dispatch(data as String);
+                match disabled {
+                    Some(true) => {},
+                    _ => {
+                        set_loading.set(!loading.get());
+                        let data = match data.to_owned() {
+                            Some(data) => data,
+                            None => "".to_string(),
+                        };
+                        set_session.dispatch(data as String);
+                    }
+                }
             })
             variant=ButtonVariant::Other
             attr:r#type="button"
